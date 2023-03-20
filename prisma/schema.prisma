@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  id             String        @id @map("_id")
+  name           String
+  email          String        @unique
+  course         Course
+  sex            String
+  term           Int
+  learningModel  LModel
+  subscription   Subscription?
+
+  @@map("students")
+}
+
+model Subscription {
+  id               String      @id @default(cuid()) @map("_id")
+  student          Student?    @relation(fields: [studentId], references: [id])
+  studentId        String      @unique
+  volley           Volley?
+  soccer           Soccer?
+  dodgeball        Dodgeball?
+  tableTennis      TableTennis? 
+  chess            Boolean
+  domino           Domino?
+  electronic       Electronic?  
+  athletics        Atheltics? 
+  badminton        Badminton?
+}
+
+model Team {
+  id        String @id @default(cuid()) @map("_id")
+  name      String @unique
+  teammates Json
+}
+
+enum Course {
+  MECA
+  SEG
+  EDIF
+  ENG
+}
+
+enum LModel {
+  INT
+  SUB
+  SUP
+}
+
+model Volley {
+  id             String       @id @default(cuid()) @map("_id")
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+  subscriptionId String       @unique
+  doubles        Boolean
+  teams          Boolean
+  pairId         String?
+  teamName       String?
+}
+
+model Soccer {
+  id             String       @id @default(cuid()) @map("_id")
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+  subscriptionId String       @unique
+  teams          Boolean
+  teamName       String
+}
+
+model Dodgeball {
+  id             String       @id @default(cuid()) @map("_id")
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+  subscriptionId String       @unique
+  teams          Boolean
+  teamName       String
+}
+
+model TableTennis {
+  id             String        @id @default(cuid()) @map("_id")
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+  subscriptionId String       @unique
+  single         Boolean
+  doubles        Boolean
+  pairId         String?
+}
+
+model Domino {
+  id             String        @id @default(cuid()) @map("_id")
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+  subscriptionId String         @unique
+  doubles        Boolean
+  pairId         String
+}
+
+model Electronic {
+  id             String        @id @default(cuid()) @map("_id")
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+  subscriptionId String @unique
+  FIFA23         Boolean
+  Tetris         Boolean
+  JustDance      Boolean
+}
+
+model Atheltics {
+  id             String        @id @default(cuid()) @map("_id")
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+  subscriptionId String @unique
+  sprint50       Boolean
+  sprint100      Boolean
+  relay          Boolean
+  pairId         String
+  longJump       Boolean
+  highJump       Boolean
+  shotPut        Boolean
+}
+
+model Badminton {
+  id             String        @id @default(cuid()) @map("_id")
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+  subscriptionId String @unique
+  single         Boolean
+  doubles        Boolean
+  pairId         String?
+}

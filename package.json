@@ -1,0 +1,45 @@
+{
+  "name": "jics-server",
+  "version": "1.0.0",
+  "description": "Express Backend for JICs",
+  "main": "src/cserver.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "lint": "eslint src --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gvinfinity/jics-server.git"
+  },
+  "keywords": [
+    "server",
+    "express",
+    "REST",
+    "api",
+    "backend"
+  ],
+  "author": "Gabriel Soares",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Gvinfinity/jics-server/issues"
+  },
+  "homepage": "https://github.com/Gvinfinity/jics-server#readme",
+  "dependencies": {
+    "@prisma/client": "^4.11.0",
+    "cors": "^2.8.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "express": "^4.18.2",
+    "zod": "^3.21.4",
+    "zod-validation-error": "^1.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin": "^1.0.1",
+    "nodemon": "^2.0.21",
+    "prettier": "^2.8.4",
+    "prisma": "^4.11.0"
+  }
+}
