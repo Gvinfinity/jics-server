@@ -11,11 +11,10 @@ const prisma = new PrismaClient();
 async function create(data) {
   try {
     const student = await prisma.student.create({ data: data });
-    console.log(student);
     return student;
   } catch (error) {
     if (error.code == PRISMA_ERRORS.alreadyExists) {
-      throw new EntryExistsError();
+      throw new EntryExistsError(error.meta.target);
     } else {
       throw error;
     }
@@ -60,4 +59,8 @@ async function list() {
   });
 }
 
-export default { create, get, list };
+async function verifyNumber(query) {
+  return (await prisma.subscription.findMany(query)).length;
+}
+
+export default { create, get, list, verifyNumber };

@@ -11,37 +11,36 @@ datasource db {
 }
 
 model Student {
-  id             String        @id @map("_id")
-  name           String
-  email          String        @unique
-  course         Course
-  sex            String
-  term           Int
-  learningModel  LModel
-  subscription   Subscription?
+  id            String        @id @map("_id")
+  name          String
+  email         String        @unique
+  course        Course
+  sex           String
+  term          Int
+  learningModel LModel
+  subscription  Subscription?
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt()
 
   @@map("students")
 }
 
 model Subscription {
-  id               String      @id @default(cuid()) @map("_id")
-  student          Student?    @relation(fields: [studentId], references: [id])
-  studentId        String      @unique
-  volley           Volley?
-  soccer           Soccer?
-  dodgeball        Dodgeball?
-  tableTennis      TableTennis? 
-  chess            Boolean
-  domino           Domino?
-  electronic       Electronic?  
-  athletics        Atheltics? 
-  badminton        Badminton?
-}
-
-model Team {
-  id        String @id @default(cuid()) @map("_id")
-  name      String @unique
-  teammates Json
+  id          String       @id @default(cuid()) @map("_id")
+  student     Student?     @relation(fields: [studentId], references: [id])
+  studentId   String       @unique
+  volley      Volley?
+  soccer      Soccer?
+  dodgeball   Dodgeball?
+  tableTennis TableTennis?
+  chess       Boolean
+  domino      Domino?
+  electronic  Electronic?
+  athletics   Atheltics?
+  // badminton   Badminton?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt()
 }
 
 enum Course {
@@ -59,12 +58,15 @@ enum LModel {
 
 model Volley {
   id             String       @id @default(cuid()) @map("_id")
-  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+  subscription   Subscription @relation(onDelete: NoAction, onUpdate: NoAction, fields: [subscriptionId], references: [id])
   subscriptionId String       @unique
   doubles        Boolean
   teams          Boolean
   pairId         String?
   teamName       String?
+  teamMate1Id    String?
+  teamMate2Id    String?
+  teamMate3Id    String?
 }
 
 model Soccer {
@@ -73,6 +75,15 @@ model Soccer {
   subscriptionId String       @unique
   teams          Boolean
   teamName       String
+  teamMate1Id    String
+  teamMate2Id    String
+  teamMate3Id    String
+  teamMate4Id    String
+  teamMate5Id    String?
+  teamMate6Id    String?
+  teamMate7Id    String?
+  teamMate8Id    String?
+  teamMate9Id    String?
 }
 
 model Dodgeball {
@@ -81,10 +92,19 @@ model Dodgeball {
   subscriptionId String       @unique
   teams          Boolean
   teamName       String
+  teamMate1Id    String
+  teamMate2Id    String
+  teamMate3Id    String
+  teamMate4Id    String
+  teamMate5Id    String
+  teamMate6Id    String
+  teamMate7Id    String
+  teamMate8Id    String
+  teamMate9Id    String
 }
 
 model TableTennis {
-  id             String        @id @default(cuid()) @map("_id")
+  id             String       @id @default(cuid()) @map("_id")
   subscription   Subscription @relation(fields: [subscriptionId], references: [id])
   subscriptionId String       @unique
   single         Boolean
@@ -93,40 +113,42 @@ model TableTennis {
 }
 
 model Domino {
-  id             String        @id @default(cuid()) @map("_id")
+  id             String       @id @default(cuid()) @map("_id")
   subscription   Subscription @relation(fields: [subscriptionId], references: [id])
-  subscriptionId String         @unique
+  subscriptionId String       @unique
   doubles        Boolean
   pairId         String
 }
 
 model Electronic {
-  id             String        @id @default(cuid()) @map("_id")
+  id             String       @id @default(cuid()) @map("_id")
   subscription   Subscription @relation(fields: [subscriptionId], references: [id])
-  subscriptionId String @unique
+  subscriptionId String       @unique
   FIFA23         Boolean
-  Tetris         Boolean
+  // Tetris         Boolean
   JustDance      Boolean
 }
 
 model Atheltics {
-  id             String        @id @default(cuid()) @map("_id")
+  id             String       @id @default(cuid()) @map("_id")
   subscription   Subscription @relation(fields: [subscriptionId], references: [id])
-  subscriptionId String @unique
+  subscriptionId String       @unique
   sprint50       Boolean
   sprint100      Boolean
   relay          Boolean
-  pairId         String
+  teamMate1Id    String?
+  teamMate2Id    String?
+  teamMate3Id    String?
   longJump       Boolean
   highJump       Boolean
   shotPut        Boolean
 }
 
-model Badminton {
-  id             String        @id @default(cuid()) @map("_id")
-  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
-  subscriptionId String @unique
-  single         Boolean
-  doubles        Boolean
-  pairId         String?
-}
+// model Badminton {
+//   id             String       @id @default(cuid()) @map("_id")
+//   subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+//   subscriptionId String       @unique
+//   single         Boolean
+//   doubles        Boolean
+//   pairId         String?
+// }
