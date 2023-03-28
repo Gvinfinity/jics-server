@@ -12,7 +12,7 @@ import recursiveCreate from '../utils/recursiveCreate.js';
 const LIMITS = {
   volleyDoubles: 4,
   volleyTeams: 2,
-  soccerTeams: 2,
+  soccer: 2,
   tableTennisDoubles: 3,
   tableTennisSingle: 5,
   domino: 5,
@@ -27,6 +27,7 @@ const LIMITS = {
 async function _verifyLimits(data) {
   const sex = data.sex;
   const course = data.course;
+  const learningModel = data.learningModel;
 
   let limited = [];
 
@@ -44,6 +45,7 @@ async function _verifyLimits(data) {
         student: {
           is: {
             course: course,
+            learningModel: learningModel,
             sex: sex,
           },
         },
@@ -73,13 +75,13 @@ async function _verifyLimits(data) {
         student: {
           is: {
             course: course,
+            learningModel: learningModel,
           },
         },
       },
     };
 
     if ((await RegistrationService.verifyNumber(query)) >= LIMITS.volleyTeams) {
-      console.log('Lim Volley');
       limited.push('volleyTeams');
     }
   }
@@ -88,29 +90,28 @@ async function _verifyLimits(data) {
     const query = {
       where: {
         soccer: {
-          teams: true,
-          teamMate1Id: {
-            notIn: [null, ''],
+          is: {
+            teams: true,
           },
-          teamMate2Id: {
-            notIn: [null, ''],
-          },
-          teamMate3Id: {
-            notIn: [null, ''],
-          },
-          teamMate4Id: {
-            notIn: [null, ''],
+          isNot: {
+            teamMate1Id: '',
+            teamMate2Id: '',
+            teamMate3Id: '',
+            teamMate4Id: '',
           },
         },
         student: {
-          course: course,
-          sex: sex,
+          is: {
+            course: course,
+            learningModel: learningModel,
+            sex: sex,
+          },
         },
       },
     };
 
-    if ((await RegistrationService.verifyNumber(query)) >= LIMITS.soccerTeams) {
-      limited.push('soccerTeams');
+    if ((await RegistrationService.verifyNumber(query)) >= LIMITS.soccer) {
+      limited.push('soccer');
     }
   }
 
@@ -118,11 +119,16 @@ async function _verifyLimits(data) {
     const query = {
       where: {
         tableTennis: {
-          single: true,
+          is: {
+            single: true,
+          },
         },
         student: {
-          course: course,
-          sex: sex,
+          is: {
+            course: course,
+            learningModel: learningModel,
+            sex: sex,
+          },
         },
       },
     };
@@ -139,14 +145,19 @@ async function _verifyLimits(data) {
     const query = {
       where: {
         tableTennis: {
-          doubles: true,
-          pairId: {
-            notIn: [null, ''],
+          is: {
+            doubles: true,
+          },
+          isNot: {
+            pairId: '',
           },
         },
         student: {
-          course: course,
-          sex: sex,
+          is: {
+            course: course,
+            learningModel: learningModel,
+            sex: sex,
+          },
         },
       },
     };
@@ -163,13 +174,18 @@ async function _verifyLimits(data) {
     const query = {
       where: {
         domino: {
-          doubles: true,
-          pairId: {
-            notIn: [null, ''],
+          is: {
+            doubles: true,
+          },
+          isNot: {
+            pairId: '',
           },
         },
         student: {
-          course: course,
+          is: {
+            course: course,
+            learningModel: learningModel,
+          },
         },
       },
     };
@@ -183,10 +199,15 @@ async function _verifyLimits(data) {
     const query = {
       where: {
         electronic: {
-          FIFA23: true,
+          is: {
+            FIFA23: true,
+          },
         },
         student: {
-          course: course,
+          is: {
+            course: course,
+            learningModel: learningModel,
+          },
         },
       },
     };
@@ -200,11 +221,16 @@ async function _verifyLimits(data) {
     const query = {
       where: {
         athletics: {
-          sprint50: true,
+          is: {
+            sprint50: true,
+          },
         },
         student: {
-          course: course,
-          sex: sex,
+          is: {
+            course: course,
+            learningModel: learningModel,
+            sex: sex,
+          },
         },
       },
     };
@@ -218,11 +244,16 @@ async function _verifyLimits(data) {
     const query = {
       where: {
         athletics: {
-          sprint100: true,
+          is: {
+            sprint100: true,
+          },
         },
         student: {
-          course: course,
-          sex: sex,
+          is: {
+            course: course,
+            learningModel: learningModel,
+            sex: sex,
+          },
         },
       },
     };
@@ -236,20 +267,21 @@ async function _verifyLimits(data) {
     const query = {
       where: {
         athletics: {
-          relay: true,
-          teamMate1Id: {
-            notIn: [null, ''],
+          is: {
+            relay: true,
           },
-          teamMate2Id: {
-            notIn: [null, ''],
-          },
-          teamMate3Id: {
-            notIn: [null, ''],
+          isNot: {
+            teamMate1Id: '',
+            teamMate2Id: '',
+            teamMate3Id: '',
           },
         },
         student: {
-          course: course,
-          sex: sex,
+          is: {
+            course: course,
+            learningModel: learningModel,
+            sex: sex,
+          },
         },
       },
     };
@@ -263,11 +295,16 @@ async function _verifyLimits(data) {
     const query = {
       where: {
         athletics: {
-          shotPut: true,
+          is: {
+            shotPut: true,
+          },
         },
         student: {
-          course: course,
-          sex: sex,
+          is: {
+            course: course,
+            learningModel: learningModel,
+            sex: sex,
+          },
         },
       },
     };
@@ -281,11 +318,16 @@ async function _verifyLimits(data) {
     const query = {
       where: {
         athletics: {
-          longJump: true,
+          is: {
+            longJump: true,
+          },
         },
         student: {
-          course: course,
-          sex: sex,
+          is: {
+            course: course,
+            learningModel: learningModel,
+            sex: sex,
+          },
         },
       },
     };
@@ -299,11 +341,16 @@ async function _verifyLimits(data) {
     const query = {
       where: {
         athletics: {
-          highJump: true,
+          is: {
+            highJump: true,
+          },
         },
         student: {
-          course: course,
-          sex: sex,
+          is: {
+            course: course,
+            learningModel: learningModel,
+            sex: sex,
+          },
         },
       },
     };
@@ -352,13 +399,9 @@ async function register(request, response) {
 
   const limited = await _verifyLimits(data);
 
-  console.log(limited.length > 0);
-
   if (limited.length > 0) {
-    console.log(':)');
     return response.status(418).json({ limited });
   }
-  console.log(';-;');
 
   data = recursiveCreate(data);
 
