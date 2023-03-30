@@ -36,7 +36,7 @@ async function get(id) {
           domino: true,
           electronic: true,
           athletics: true,
-          badminton: true,
+          // badminton: true,
         },
       },
     },
@@ -54,7 +54,7 @@ async function list() {
       domino: true,
       electronic: true,
       athletics: true,
-      badminton: true,
+      // badminton: true,
     },
   });
 }
